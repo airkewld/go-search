@@ -11,6 +11,11 @@ import (
 func main() {
 
 	q := question()
+
+	if q == "" {
+		os.Exit(0)
+	}
+
 	se := searchEngine()
 
 	q = strings.ReplaceAll(q, " ", "+")
@@ -42,15 +47,15 @@ func main() {
 
 	// open url
 	find := fmt.Sprint(searchEngine, q)
-    err:=browser.OpenURL(find)
-    if err!=nil{
-        fmt.Println("error when opening browser: ", err)
-    }
+	err := browser.OpenURL(find)
+	if err != nil {
+		fmt.Println("error when opening browser: ", err)
+	}
 
 }
 
 func question() string {
-	fmt.Println("enter your question: ")
+	fmt.Printf("AMA: ")
 	scan := bufio.NewScanner(os.Stdin)
 	scan.Scan()
 	return scan.Text()
@@ -65,9 +70,9 @@ func question() string {
 // }
 
 func searchEngine() string {
-	pse,present := os.LookupEnv("FAV_SE")
+	pse, present := os.LookupEnv("FAV_SE")
 	if !present {
-		fmt.Println("enter the name of your preffered search engine: ")
+		fmt.Println("enter the name of your preferred search engine: ")
 		scan := bufio.NewScanner(os.Stdin)
 		scan.Scan()
 		return scan.Text()
