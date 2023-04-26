@@ -27,7 +27,7 @@ func main() {
 		sr := fmt.Sprint("http://"+se+".com", "/?q=")
 		searchEngine = sr
 	case "duck":
-		sr := fmt.Sprint("http://"+se+".com", "/?q=")
+		sr := fmt.Sprint("http://duckduckgo.com", "/?q=")
 		searchEngine = sr
 	case "duckduckgo.com":
 		sr := fmt.Sprint("http://" + se + "/?q=")
