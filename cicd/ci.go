@@ -9,15 +9,21 @@ import (
 )
 
 func main() {
+	fmt.Println("Building with Dagger")
+    cleanBuildDir()
 	if err := build(context.Background()); err != nil {
-		fmt.Println(err)
+		fmt.Println("Error with pipeline: ", err)
 	} else {
 		fmt.Println("App built successfully!")
 	}
 }
 
+func cleanBuildDir() {
+	fmt.Println("Cleaning up 'build' directory...")
+	os.RemoveAll("./build")
+}
+
 func build(ctx context.Context) error {
-	fmt.Println("Building with Dagger")
 
 	// initialize Dagger client
 	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stdout))
@@ -45,19 +51,19 @@ func build(ctx context.Context) error {
 	goSec = goSec.WithDirectory("/src", src).WithWorkdir("/src")
 
 	// run simple fmt
-    gofmt,err := builder.WithExec([]string{"go", "fmt", "."}).Stdout(ctx)
-    if err!=nil {
-        fmt.Println(err)
-    }else{
-        fmt.Println(gofmt)
-    }
+	gofmt, err := builder.WithExec([]string{"go", "fmt", "."}).Stdout(ctx)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(gofmt)
+	}
 	// run gosec
-    gosec,err := goSec.WithExec([]string{"gosec", "."}).Stdout(ctx)
-    if err!=nil {
-        fmt.Println(err)
-    }else{
-        fmt.Println(gosec)
-    }
+	gosec, err := goSec.WithExec([]string{"gosec", "."}).Stdout(ctx)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(gosec)
+	}
 
 	// define the application build command
 	for _, os := range buildFor {
